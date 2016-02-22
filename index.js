@@ -87,8 +87,7 @@ function render()
 
     const root = e("div", {});
     if (state.view == "list") {
-
-        const w = 300 * state.aspectRatio, h = 300;
+        const w = 200 * state.aspectRatio, h = 200;
         let x = 0, y = 0;
         for (let i=0; i<slides.length; ++i) {
             const div = addDiv(root, {left: x, top: y, width: w, height: h});
