@@ -46,7 +46,7 @@ function render()
     const addDiv = function(body, arg)
     {
         return body.appendChild( e("div", {backgroundColor: "#fff", position: "absolute",
-            overflow: "hidden", fontSize: arg.width/30}, arg) );
+            overflow: "hidden", fontSize: arg.width/32}, arg) );
     };
 
     const centerDiv = function(body)
