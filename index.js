@@ -274,101 +274,223 @@ function makeSlides(html)
 // Slides
 // ------------------------------------------------------------
 
-function sampleCustomTemplate(div, arg)
-{
-    div.backgroundCOlor = "#000";
-    div.id = "player";
-
-    var b = div.appendChild(e("div", baseStyle, {
-        backgroundImage: `url('${arg.imgB}')`, backgroundSize: `auto ${div.style.height}`,
-        backgroundRepeat: "no-repeat"}));
-    var aw = div.appendChild(e("div", baseStyle, {width: "50%"}));
-    var a = aw.appendChild(e("div", baseStyle, {
-        backgroundImage: `url('${arg.imgA}')`, backgroundSize: `auto ${div.style.height}`,
-        backgroundRepeat: "no-repeat"}));
-
-    b.appendChild( e("div", baseStyle, {fontSize: "1em",
-        top: "1em", left: "-1em", textAlign: "right", text: arg.captionB, color: "#fff",
-        textShadow: "0px 0px 20px #000", overflow: "visible"} ));
-    a.appendChild( e("div", baseStyle, {fontSize: "1em",
-        top: "1em", left: "1em", textAlign: "left", text: arg.captionA, color: "#fff",
-        textShadow: "0px 0px 20px #000", overflow: "visible", width: div.style.width} ));
-
-    if (isPlaying()) {
-        const start = Date.now();
-        const animate = function() {
-            if (document.getElementById("player") != div) return;
-            var split = Math.sin((Date.now() - start)/1000) * 40 + 50;
-            aw.style.width = `${split}%`;
-            window.requestAnimationFrame(animate);
-        };
-        window.requestAnimationFrame(animate);
-        state.canReload = false;
-    }
-}
-
 var slides = [
-    {title: "nfslides", subtitle: "Niklas Frykholm, 15 Feb 2016"},
-    {html: `
-        <h1>nfslides — Minimalistic Slideshows</h1>
-        <ul>
-            <li>~140 lines of JavaScript in core</li>
-            <li>ES6 — backwards compatibility is boring</li>
-            <li>Hackable: Add your own templates, styles and effects</li>
-            <li>Everything is code</li>
-            <li><a href="https://github.com/niklasfrykholm/nfslides">On GitHub</a></li>
-        </ul>`},
-    {h1: "Features", ul: `
-        <li>Auto-reload, just save in your text editor</li>
-        <li>Keyboard interface: press <b>h</b> or <b>?</b> for help</li>
-        <li>Toggle between 16:9 and 4:3: press <b>w</b></li>
-        <li>Toggle between views: press <b>v</b></li>`},
-    {h1: "Built-In Template Functionality", ul: `
-        <li>Title</li>
-        <li>List</li>
-        <li>Markdown</li>
-        <li>Image</li>
-        <li>Video (local or YouTube)</li>
-        <li>Canvas (with animation)</li>`},
-    {markdown: `
-        # Markdown
-
-        * You can make slides in [markdown](https://daringfireball.net/projects/markdown/)
-        * Uses \`marked.min.js\` as markdown processor
-    `},
-    {caption: "Image Slide (courtesy of Unsplash)", imageUrl: "https://images.unsplash.com/photo-1414115880398-afebc3d95efc?crop=entropy&dpr=2&fit=crop&fm=jpg&h=900&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1600"},
-    {caption: "YouTube", video: {youtubeId: "PUv66718DII"}},
-    {caption: "MP4", video: {src: "http://techslides.com/demos/sample-videos/small.mp4", thumbnailSrc: "http://perso.freelug.org/benw/rotor/colour.jpg"}},
-    {caption: "Canvas", canvas: (ctx,t) => {
-        ctx.save();
-            ctx.clearRect(-2000,-2000,4000,4000);
-            ctx.rotate(t);
-            ctx.strokeStyle = "#000";
-            ctx.lineWidth=3;
-            ctx.fillStyle = "#ff0";
-            const rect = [-800, -800, 1600, 1600];
-            ctx.fillRect(...rect);
-            ctx.strokeRect(...rect);
-        ctx.restore();
-        return "animate";
-    }},
     ...makeSlides(renderMarkdown(`
-        # Using *makeSlides*
+# Stingray Overview
 
-        * Takes a range of HTML
-        * Splits into separate slides at each \`<h1>\`
+## Niklas Frykholm, 01 March 2016
 
-        # Advantages of *makeSlides*
+# Main Stingray Components
 
-        * Write your slides as a solid block of HTML or Markdown
-        * Easier to read and write
-        * Copy/paste to other programs
+![](../../Camera Uploads/2016-02-15 14.13.07.jpg)
+
+# Data
+
+* Everything is a <em>resource</em> idenitfied by name and type: \`vegetation/trees/05_larch.unit\`
+* Source data is in JSON
+* Compiled data matches runtime memory (per platform)
+* Resources are loaded/unloaded together in <em>packages</em>
+* For final distribution, packages are compiled into <em>bundles</em>.
+* Core - shared resources
+
+# Runtime
+
+* C++ based high-performance executable
+* Compiled for each target platform
+* Three flavors: debug, dev, release
+* The windows runtime can also do other stuff: compile data, serve files, etc
+
+# Editor
+
+* Separate executable written in HTML, JavaScript, C# and (a little) C++
+* Front-end is Chromium + JavaScript
+* Backend is C#
+* We also have some old tools written in C# WPF/WinForms that haven't yet
+        been converted into the new system
+
+# Editor Viweports
+
+![](../../Camera Uploads/2016-02-15 15.18.10.jpg)
+
+# Editor Viewports
+
+* Since everything is Websocket based, the editor can connect against remote viewports
+* Viewport mirrored on iOS, Android, etc
+* We can also launch the game on these platforms
+* Data on the remote platforms is loaded over a Websocket connection to the <em>Asset Server</em>
+
+# Development
+
+* Git
+* Pull requests + peer review
+* CI builds
+* Goal settings meeting
+* Scrum
+
+# Build System
+
+* Cmake
+* spm
+* make.rb
+
+# Documentation
+
+* Markdown
+* Adoc
+* Wiki
+
+# Testing
+
+* Unit tests
+* Regression tests
+* Backend & frontend tests
+
+# Investigating a Running Program
+
+* Profiler
+* Memory tracker
+* Perfhud
+* Lua debugger
+* Console
+
+# Building a Game
+
+* Editing data
+* Lua scripting
+* Flow
+* Plugins
+* C API
+* Script data
+
+# Entity
+
+# Flow
+
+# UI
+
+* Built-in UI
+* Scaleform
+
+# World
+
+* Worlds, units & levels
+* Lights, cameras, volumes, sounds
+
+# Network
+
+* Matchmaking
+* Network compressed protocol
+* Object synchronization
+* RPCs
+
+# Particle System
+
+* Future ideas - bufferbuffer
+
+# Plugin System
+
+* Plugin C API
+* Hot-Reloadable plugins
+* Single function, request interfaces
+
+# Rendering
+
+* Meshes
+* Materials/shaders
+* Post effects
+
+# Lua Scripting
+
+* Hand-written Interfaces
+* Hot-Reloadable
+* Single threaded
+* Adoc documentation
+
+# Sound
+
+* Wwise integration
+* Controlled through events/parameters
+* Old, internal sound system (timpani)/li>
+
+# Story
+
+* Animation system for levels
+* Draw curves controlling properties
+
+# Terrain
+
+# Navigation
+
+# Animation
+
+* Low level curve evaluation
+* High-level state machine with blending
+
+# Input
+
+* Abstract "controllers" with axes and buttons
+
+# Physics
+
+* Rigid body simulation -- PhysX
+* Raycasts -- queries
+* "Mover" -- character controller
+* Joints, connecting bodies
+* Vehicles
+* APEX Cloth -- cloth simulation
+* Vector fields -- wind simulation
+
+# Scene Graphs
+
+* Hierarchical simulation
+* Local and world transforms
+* Linking of objects
+
+# Collection Classes
+
+* Minimalistic set: Array, HashMap, HashSet, Vector
+* No STL
+* No string class -- Array&lt;char&gt;
+* IdString32/64 -- string hashes, used almost everywhere
+
+# Compiling Resources
+
+* JSON representation
+* Parsed into <tt>DynamicConfigValue</tt> -- C++ representation
+* Packed into packed data representation
+* Same on disk and in memory
+
+# Utility
+
+* ConsoleServer -- WebSocket for external to connect to
+* XASSERT() -- asserts with callstack generation
+* logging::info() -- logging
+* Logged to file and console server
+
+# IO
+
+* File system abstraction <tt>IFileSystem</tt>
+* Backend can be real file system, network, bundle or memory
+
+# Memory
+
+* Explicit allocators <tt>Allocator</tt> -- passed to systems
+* Different types
+* TempAllocator -- for temporary memory
+* TraceAllocator -- traces memory use, error on memory leaks
+* PageAllocator at foundation
+
+# Threading
+
+* Two main pipelined threads: core, render
+* Job system -- perfect subscription
+* Background threads for background tasks
+* Challenge: More paralelism
+* Challenge: How prioritize jobs
+* Challenge: Multithread of gameplay
+
+# Q & A
+
+* Presentation made in [nfslides](https://github.com/niklasfrykholm/nfslides)
     `)),
-    {template: sampleCustomTemplate,
-        captionA: "Use custom templates",
-        captionB: "For special effects",
-        imgA: "https://images.unsplash.com/photo-1414115880398-afebc3d95efc?crop=entropy&dpr=2&fit=crop&fm=jpg&h=900&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1600",
-        imgB: "https://images.unsplash.com/photo-1442589031151-61d5645469d7?crop=entropy&dpr=2&fit=crop&fm=jpg&h=900&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1600"
-    },
-    {title: "Good riddance, Powerpoint!", subtitle: "TTYN!"},
 ]
