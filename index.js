@@ -281,7 +281,7 @@ var slides = [
 
 # Main Stingray Components
 
-![](../../Camera Uploads/2016-02-15 14.13.07.jpg)
+![](img/data-flow.jpg)
 
 # Data
 
@@ -309,7 +309,7 @@ var slides = [
 
 # Editor Viweports
 
-![](../../Camera Uploads/2016-02-15 15.18.10.jpg)
+![](img/editor-viewport.jpg)
 
 # Editor Viewports
 
