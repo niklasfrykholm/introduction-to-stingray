@@ -228,10 +228,6 @@ function addElements(div, arg)
         arg.html = renderMarkdown(arg.markdown);
     if (arg.html)
         div.appendChild( e("div", baseStyle, {left: "5%", width: "90%", top: "10%", html: arg.html}) );
-    if (arg.caption)
-        div.appendChild( e("div", baseStyle, {fontSize: "1em",
-            top: "90%", textAlign: "center", text: arg.caption, color: "#fff",
-            textShadow: "0px 0px 20px #000"} ));
 
     [].forEach.call(div.getElementsByTagName("h1"), e => applyStyle(e, {
         textAlign: "center", fontSize: "1.5em", marginTop: 0, fontWeight: "normal"}));
