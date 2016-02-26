@@ -281,19 +281,21 @@ var slides = [
 
 # Data
 
-* Everything is a <em>resource</em> idenitfied by name and type: \`vegetation/trees/05_larch.unit\`
-* Source data is in JSON
+* Everything is a <em>resource</em> idenitfied by name and type:
+    * \`vegetation/trees/05_larch.unit\`
+* Source data is in Json
 * Compiled data matches runtime memory (per platform)
 * Resources are loaded/unloaded together in <em>packages</em>
 * For final distribution, packages are compiled into <em>bundles</em>.
-* Core - shared resources
+* <tt>/core</tt> — shared resources
 
 # Runtime
 
 * C++ based high-performance executable
 * Compiled for each target platform
 * Three flavors: debug, dev, release
-* The windows runtime can also do other stuff: compile data, serve files, etc
+* The windows runtime can also do other stuff
+    * Compile data, serve files, etc
 
 # Editor
 
@@ -301,9 +303,9 @@ var slides = [
 * Front-end is Chromium + JavaScript
 * Backend is C#
 * We also have some old tools written in C# WPF/WinForms that haven't yet
-        been converted into the new system
+  been converted into the new system
 
-# Editor Viweports
+# Editor Viewports
 
 ![](img/editor-viewport.jpg)
 
@@ -316,20 +318,26 @@ var slides = [
 
 # Development
 
-* Git
-* Pull requests + peer review
-* CI builds
-* Goal settings meeting
-* Scrum
+* Goal setting meeting + scrum determine tasks
+* Code style guidelines in Git wiki
+* Git pull requests + peer review
+* Code style guidelines in Git wiki
+* CI builds on build server
 
 # Build System
 
-* Cmake
-* spm
-* make.rb
+* Pre-requisites:
+    * Ruby
+    * Visual Studio
+    * Platform SDKs (for target platforms)
+* \`make.rb\` — Build engine
+    * \`spm\` — Stingray Package Manager
+    * Cmake
 
 # Documentation
 
+* Code comments
+    * Describes header files
 * Markdown
 * Adoc
 * Wiki
