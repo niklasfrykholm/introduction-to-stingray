@@ -230,7 +230,12 @@ function addElements(div, arg)
         arg.html = renderMarkdown(arg.markdown);
     if (arg.html)
         div.appendChild( e("div", baseStyle, {left: "5%", width: "90%", top: "10%", html: arg.html}) );
-
+    if (arg.caption) {
+        div.appendChild( e("div", baseStyle, {fontSize: "1em",
+            top: "90%", textAlign: "center", text: arg.caption,
+            color: arg.captionStyle == "black" ? "#000" : "#fff",
+            textShadow: arg.captionStyle == "black" ? "0px 0px 20px #fff" : "0px 0px 20px #000"} ));
+    }
     [].forEach.call(div.getElementsByTagName("h1"), e => applyStyle(e, {
         textAlign: "center", fontSize: "1.5em", marginTop: 0, fontWeight: "normal"}));
     [].forEach.call(div.getElementsByTagName("li"), e => applyStyle(e, {marginBottom: "0.4em"}));
@@ -248,8 +253,13 @@ function autoStyle(div, arg)
     var img = div.getElementsByTagName("img")[0];
     if (img) {
         var h1 = div.getElementsByTagName("h1")[0];
+        let captionStyle = "white";
+        if (img.alt.indexOf("#black") != -1)
+            captionStyle = "black";
+
         while (div.lastChild) div.removeChild(div.lastChild);
-        return addElements(div, {imageUrl: img.src, caption: h1.innerHTML});
+        return addElements(div, {imageUrl: img.src, caption: h1.innerHTML,
+            captionStyle: captionStyle});
     }
 
     var h2 = div.getElementsByTagName("h2")[0];
@@ -279,7 +289,7 @@ var slides = [
 
 # Main Stingray Components
 
-![](img/data-flow.jpg)
+![#black](img/data-flow.jpg)
 
 # Data
 
@@ -309,7 +319,7 @@ var slides = [
 
 # Editor Viewports
 
-![](img/editor-viewport.jpg)
+![#black](img/editor-viewport.jpg)
 
 # Editor Viewports
 
