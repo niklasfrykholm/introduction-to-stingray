@@ -164,8 +164,8 @@ function renderMarkdown(md)
 
     if (typeof marked === "undefined") {
         require("marked.min.js");
-        window.setTimeout(render, 50);
-        return "";
+        window.setTimeout(() => {setupSlides(); render();}, 50);
+        return "<h1>Loading Markdown...</h1>";
     }
 
     return marked(unindent(md));
@@ -285,7 +285,9 @@ function makeSlides(html)
 // Slides
 // ------------------------------------------------------------
 
-var slides = [
+function setupSlides()
+{
+    window.slides = [
     ...makeSlides(renderMarkdown(`
 # Stingray Overview
 
@@ -534,3 +536,6 @@ var slides = [
 ## Presentation made in [nfslides](https://github.com/niklasfrykholm/nfslides)
     `)),
 ]
+}
+
+setupSlides();
