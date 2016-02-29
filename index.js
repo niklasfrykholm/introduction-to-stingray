@@ -299,17 +299,17 @@ var slides = [
 
 * Everything is a <em>resource</em> idenitfied by name and type:
     * \`vegetation/trees/05_larch.unit\`
-* Source data is in Json
+* Source data is in Json (variant)
 * Compiled data matches runtime memory (per platform)
 * Resources are loaded/unloaded together in <em>packages</em>
 * For final distribution, packages are compiled into <em>bundles</em>.
-* <tt>/core</tt> — shared resources
+* <tt>/core</tt> — shared resources used by editor
 
 # Runtime
 
 * C++ based high-performance executable
 * Compiled for each target platform
-* Three flavors: debug, dev, release
+* Three flavors: \`debug\`, \`dev\`, \`release\`
 * The windows runtime can also do other stuff
     * Compile data, serve files, etc
 
@@ -318,7 +318,7 @@ var slides = [
 * Separate executable written in HTML, JavaScript, C# and (a little) C++
 * Front-end is Chromium + JavaScript
 * Backend is C#
-* We also have some old tools written in C# WPF/WinForms that haven't yet
+* We also have some old tools written in WPF and WinForms that haven't yet
   been converted into the new system
 
 # Editor Viewports
@@ -327,186 +327,167 @@ var slides = [
 
 # Editor Viewports
 
-* Since everything is Websocket based, the editor can connect against remote viewports
-* Viewport mirrored on iOS, Android, etc
-* We can also launch the game on these platforms
-* Data on the remote platforms is loaded over a Websocket connection to the <em>Asset Server</em>
+* Since everything is web socket based, the editor can connect against remote viewports
+    * Viewport mirrored on iOS, Android, etc
+    * We can also launch the game on these platforms
+* Data on the remote platforms is loaded over a web socket connection to the <em>Asset Server</em>
 
-# Development
+# Development Process
 
-* Goal setting meeting + scrum determine tasks
-* Code style guidelines in Git wiki
+* Goal setting meeting + SCRUM determine tasks
 * Git pull requests + peer review
+* Continuous builds on build server
+* For bigger tasks: SEP (Stingray Enhancement Proposal)
 * Code style guidelines in Git wiki
-* CI builds on build server
 
 # Build System
 
 * Pre-requisites:
-    * Ruby
-    * Visual Studio
-    * Platform SDKs (for target platforms)
+    * Ruby, Visual Studio, Platform SDKs
 * \`make.rb\` — Build engine
-    * \`spm\` — Stingray Package Manager
-    * Cmake
+    * \`spm\` (Stingray Package Manager) fetches libs
+    * Cmake builds \`.sln\` files for Visual Studio
 
 # Documentation
 
-* Code comments
-    * Describes header files
-* Markdown
-* Adoc
-* Wiki
+* Code comments in \`*.h\` describe API
+* User documentation written by doc team
+* Markdown formatting used everywhere
+* Adoc — custom system for documenting Lua API
+* Wiki — high level system documentation (when necessary)
 
 # Testing
 
-* Unit tests
-* Regression tests
-* Backend & frontend tests
+* Unit tests in source code: \`#ifdef UNIT_TESTS\`
+    * \`stingray_win64_debug_x64.exe --run-unit-tests --test-disk\`
+* Regression test system written in Ruby
+    * Runs full projects on multiple platforms
+    * \`ruby run_regression_tests.rb\`
+* Backend & frontend tests for editor
 
 # Investigating a Running Program
 
-* Profiler
-* Memory tracker
-* Perfhud
-* Lua debugger
-* Console
+* Console — prints output, can launch other tools
+    * Profiler — top down profiler, explicit scopes
+    * Memory tracker — through console commands
+    * Perfhud — overlay with information
+    * Lua debugger
 
 # Building a Game
 
-* Editing data
-* Lua scripting
-* Flow
-* Plugins
-* C API
-* Script data
+* Export FBX files with meshes, animations, etc
+* Use editor to set up units, levels, etc
+* Create gameplay
+    * Lua scripting
+    * Flow (graphical scripting)
+    * C API (under development)
 
-# Entity
+# Worlds
 
-# Flow
+* Everything in the game lives in a *World*
+    * Can have multiple worlds for "inventory rooms", etc
+* In a world we spawn *Units*
+    * Can contain: meshes, actors, lights, cameras, ...
+* A level is a collection of Units that can be spawned into a World
 
-# UI
+# Entity/Component
 
-* Built-in UI
-* Scaleform
-
-# World
-
-* Worlds, units & levels
-* Lights, cameras, volumes, sounds
-
-# Network
-
-* Matchmaking
-* Network compressed protocol
-* Object synchronization
-* RPCs
-
-# Particle System
-
-* Future ideas - bufferbuffer
-
-# Plugin System
-
-* Plugin C API
-* Hot-Reloadable plugins
-* Single function, request interfaces
-
-# Rendering
-
-* Meshes
-* Materials/shaders
-* Post effects
+* A replacement for the *Unit* system with a looser coupling
+* Units have a fixed list of things they can contain
+* Entity system can be extended with new components
+* In progress
 
 # Lua Scripting
 
-* Hand-written Interfaces
-* Hot-Reloadable
-* Single threaded
-* Adoc documentation
+* Gameplay can be written in Lua
+    * Hot-Reloadable
+* Lua API is handwritten for maximum quality
+* Lua has main loop (i.e. not code snippets)
+    * Calls out to update and render worlds
+* Lua is single-threaded — can be performance bottleneck
 
-# Sound
+# Flow
 
-* Wwise integration
-* Controlled through events/parameters
-* Old, internal sound system (timpani)/li>
+![Flow](img/flow.png)
 
-# Story
+# Flow
 
-* Animation system for levels
-* Draw curves controlling properties
+* Visual programming language — used by artists
+* Run by VM internally
+* Nodes defined in C++ or Lua
 
-# Terrain
+# Plug-in System
 
-# Navigation
+* Allows code to be written in dynamically loaded DLLs
+    * Navigation, Scaleform, HumanIK, Wwise
+* Minimalistic C based interface (ABI)
+* Single entry function, request APIs (structs with functions)
+* Hot-reloadable
+* Plugin C API — make Lua API available through C
+
+# Rendering
+
+* Done on a separate thread
+* Main thread state (mesh positions, etc) mirrored
+* Entirely data driven (layers, shaders, etc)
 
 # Animation
 
-* Low level curve evaluation
-* High-level state machine with blending
+* Animation data exported in FBX files
+* Compressed internally to efficient representation
+* *State Machine* specifies blends and transitions
+* Evaluated to compute local position for each bone
+* *SceneGraph* specifies node hierarchy within Unit, computes world position
+  from local
 
-# Input
+# Other Systems (1)
 
-* Abstract "controllers" with axes and buttons
+* Input — abstract controller representation
+* Navigation — Plugin for AI movement
+* Network — Matchmaking, compression, object synchronization
+* Particles — Particle effect simulation
+* Physics — PhysX based, raycasts, bodies, movers, joints, cloth
 
-# Physics
+# Other Systems (2)
 
-* Rigid body simulation -- PhysX
-* Raycasts -- queries
-* "Mover" -- character controller
-* Joints, connecting bodies
-* Vehicles
-* APEX Cloth -- cloth simulation
-* Vector fields -- wind simulation
+* Sound — Wwise and internal
+* Story — Animation system for levels
+* Terrain — Sculpt terrain objects
+* UI — Scaleform and internal
 
-# Scene Graphs
+# Foundation
 
-* Hierarchical simulation
-* Local and world transforms
-* Linking of objects
-
-# Collection Classes
-
-* Minimalistic set: Array, HashMap, HashSet, Vector
-* No STL
-* No string class -- Array&lt;char&gt;
-* IdString32/64 -- string hashes, used almost everywhere
-
-# Compiling Resources
-
-* JSON representation
-* Parsed into <tt>DynamicConfigValue</tt> -- C++ representation
-* Packed into packed data representation
-* Same on disk and in memory
-
-# Utility
-
-* ConsoleServer -- WebSocket for external to connect to
-* XASSERT() -- asserts with callstack generation
-* logging::info() -- logging
-* Logged to file and console server
-
-# IO
-
-* File system abstraction <tt>IFileSystem</tt>
-* Backend can be real file system, network, bundle or memory
-
-# Memory
-
-* Explicit allocators <tt>Allocator</tt> -- passed to systems
-* Different types
-* TempAllocator -- for temporary memory
-* TraceAllocator -- traces memory use, error on memory leaks
-* PageAllocator at foundation
+* Platform abstractions for IO, threading, etc
+* Logging, asserts
+* Console server (accepts web socket commands)
+* Memory handling system
+* Collection classes
 
 # Threading
 
 * Two main pipelined threads: core, render
-* Job system -- perfect subscription
+* Job system — on thread per system core
 * Background threads for background tasks
-* Challenge: More paralelism
-* Challenge: How prioritize jobs
-* Challenge: Multithread of gameplay
+* Challenges:
+    * More parallelism
+    * How to prioritize jobs to minimize latency
+    * Multithreading gameplay
+
+# Memory
+
+* Explicit <tt>Allocator</tt> classes used to allocate memory
+* Different types
+    * \`TempAllocator\` — for temporary memory
+    * \`TraceAllocator\` — traces memory use, error on memory leaks
+    * \`HeapAllocator\` — dlmalloc
+    * \`PageAllocator\` — backing alloactor for everything
+
+# Collection Classes
+
+* Minimalistic set: \`Array\`, \`HashMap\`, \`HashSet\`, \`Vector\`
+* No STL
+* No string class — \`Array<char>\`
+* \`IdString32/64\` — string hashes, used almost everywhere
 
 # Q & A
 
