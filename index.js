@@ -305,6 +305,10 @@ var slides = [
 * For final distribution, packages are compiled into <em>bundles</em>.
 * <tt>/core</tt> — shared resources used by editor
 
+# Sample Data
+
+![](img/sample-data.png)
+
 # Runtime
 
 * C++ based high-performance executable
@@ -312,6 +316,10 @@ var slides = [
 * Three flavors: \`debug\`, \`dev\`, \`release\`
 * The windows runtime can also do other stuff
     * Compile data, serve files, etc
+
+# Runtime
+
+![](img/runtime.png)
 
 # Editor
 
@@ -332,6 +340,14 @@ var slides = [
     * We can also launch the game on these platforms
 * Data on the remote platforms is loaded over a web socket connection to the <em>Asset Server</em>
 
+# Editor
+
+![](img/editor.png)
+
+# Old Tools
+
+![](img/tools.png)
+
 # Development Process
 
 * Goal setting meeting + SCRUM determine tasks
@@ -340,6 +356,14 @@ var slides = [
 * For bigger tasks: SEP (Stingray Enhancement Proposal)
 * Code style guidelines in Git wiki
 
+# Tracking tasks in JIRA
+
+![#black](img/jira.png)
+
+# Pull Request
+
+![#black](img/pull-request.png)
+
 # Build System
 
 * Pre-requisites:
@@ -347,6 +371,10 @@ var slides = [
 * \`make.rb\` — Build engine
     * \`spm\` (Stingray Package Manager) fetches libs
     * Cmake builds \`.sln\` files for Visual Studio
+
+# make.rb
+
+![#black](img/make.png)
 
 # Documentation
 
@@ -372,6 +400,14 @@ var slides = [
     * Memory tracker — through console commands
     * Perfhud — overlay with information
     * Lua debugger
+
+# Profiler
+
+![#black](img/profiler.png)
+
+# Memory tree
+
+![#black](img/memory-tree.png)
 
 # Building a Game
 
@@ -408,13 +444,13 @@ var slides = [
 
 # Flow
 
-![Flow](img/flow.png)
-
-# Flow
-
 * Visual programming language — used by artists
 * Run by VM internally
 * Nodes defined in C++ or Lua
+
+# Flow
+
+![Flow](img/flow.png)
 
 # Plug-in System
 
@@ -473,6 +509,10 @@ var slides = [
     * How to prioritize jobs to minimize latency
     * Multithreading gameplay
 
+# Threads
+
+![#black](img/threads.jpg)
+
 # Memory
 
 * Explicit <tt>Allocator</tt> classes used to allocate memory
@@ -491,6 +531,6 @@ var slides = [
 
 # Q & A
 
-* Presentation made in [nfslides](https://github.com/niklasfrykholm/nfslides)
+## Presentation made in [nfslides](https://github.com/niklasfrykholm/nfslides)
     `)),
 ]
