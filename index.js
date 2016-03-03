@@ -318,7 +318,7 @@ function setupSlides()
 * Source data is in Json (variant)
 * Compiled data matches runtime memory (per platform)
 * Resources are loaded/unloaded together in <em>packages</em>
-* For final distribution, packages are compiled into <em>bundles</em>.
+* For final distribution, packages are compiled into <em>bundles</em>
 * <tt>/core</tt> — shared resources used by editor
 
 # Sample Data
@@ -447,7 +447,7 @@ function setupSlides()
 * A replacement for the *Unit* system with a looser coupling
 * Units have a fixed list of things they can contain
 * Entity system can be extended with new components
-* In progress
+    * In progress...
 
 # Lua Scripting
 
@@ -485,7 +485,7 @@ function setupSlides()
 
 # Animation
 
-* Animation data exported in FBX files
+* Animation data exported in *.fbx files
 * Compressed internally to efficient representation
 * *State Machine* specifies blends and transitions
 * Evaluated to compute local position for each bone
@@ -542,8 +542,8 @@ function setupSlides()
 
 * Minimalistic set: \`Array\`, \`HashMap\`, \`HashSet\`, \`Vector\`
 * No STL
-* No string class — \`Array<char>\`
-* \`IdString32/64\` — string hashes, used almost everywhere
+* \`DynamicString\` is thin wrapper around \`Array<char>\`
+* \`IdString32/64\`: string hashes, used almost everywhere
 
 # Q & A
 
