@@ -314,7 +314,7 @@ function setupSlides()
 
 # Data
 
-* Everything is a <em>resource</em> idenitfied by name and type:
+* Everything is a <em>resource</em> identified by name and type:
     * \`vegetation/trees/05_larch.unit\`
 * Source data is in Json (variant)
 * Compiled data matches runtime memory (per platform)
